@@ -1,17 +1,26 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { inject } from 'vue';
+const store: any = inject('store') // fix type
+
+let email: string = ""
+let username: string = ""
+let password: string = ""
+let repeatPassword: string = ""
+
+</script>
 
 <template>
   <div class="register-form-container">
-    <h2>Register</h2>
+    <h2>Register {{store?.state.email}}</h2>
     <form class="register">
       <label for="email">Email:</label>
-      <input type="text" id="email">
+      <input type="text" id="email" v-model="email" @input="store.setEmail(email)">
       <label for="username">Username:</label>
-      <input type="text" id="username">
+      <input type="text" id="username" v-model="username" @input="store.setUsername(username)">
       <label for="passOne">Password:</label>
-      <input type="password" id="passOne">
+      <input type="password" id="passOne" v-model="password" @input="store.setPassword(password)">
       <label for="passTwo">Repeat password:</label>
-      <input type="password" id="passTwo">
+      <input type="password" id="passTwo" v-model="repeatPassword">
       <button class="register-button">Submit</button>
     </form>
   </div>
@@ -19,13 +28,13 @@
 
 <style scoped>
 .register-form-container{
-  margin-top: 5rem;
   font-size: 20px;
   display: flex;
   flex-direction: column;
   background-color: rgba(103, 100, 97, 0.093);
   width: 50%;
   margin: 0 auto;
+  margin-top: 5rem;
   padding: 10px;
   border-radius: 20px;
 }
@@ -57,7 +66,7 @@ h2:hover {
   font-size: 18px;
   background-color: rgba(103, 100, 97, 0.332);
   border-radius: 10px;
-  width: 55%;
+  width: 45%;
   border: 2px solid rgb(189, 135, 0);
   padding: 12px;
   margin-top: 3rem;
