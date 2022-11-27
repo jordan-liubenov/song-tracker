@@ -35,7 +35,7 @@ nav {
 }
 
 nav a.router-link-exact-active {
-  color: rgba(24, 187, 92, 0.321);
+  color: rgba(215, 231, 221, 0.321);
   background-color: rgba(69, 66, 66, 0.423);
   border-radius: 5px;
 }
@@ -46,7 +46,7 @@ nav a.router-link-exact-active:hover {
 
 nav a {
   margin: auto;
-  padding: 0 1rem;
+  padding: 0 2rem;
   border-left: 1px solid var(--color-border);
 }
 
