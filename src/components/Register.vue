@@ -1,13 +1,39 @@
 <script setup lang="ts">
 import { inject } from 'vue';
+import { ensureAllFields } from '../utils/registerUtils'
 const store: any = inject('store') // fix type
 
-let fieldsValid = true
+const fieldsValid = { valid:true }
 
 let email: string = ""
 let username: string = ""
 let password: string = ""
 let repeatPassword: string = ""
+
+async function submitRegister(e: any): Promise<void>{
+  e.preventDefault()
+
+  if (!ensureAllFields(email, username, password, repeatPassword) || !fieldsValid.valid) {
+    return
+  }
+
+  let objectBody = {
+    email,
+    username,
+    password,
+    repeatPassword
+  }
+
+  // try {
+  //   const req = await fetch("http://localhost:5050/register")
+  //   const res = req.json() 
+  // } catch (error) {
+  //   console.log(error)
+  // }
+
+  console.log(JSON.stringify(objectBody))
+}
+
 </script>
 
 <template>
@@ -19,10 +45,10 @@ let repeatPassword: string = ""
       <label for="username">Username:</label>
       <input type="text" id="username" v-model="username" @input="(e) => store.setUsername(e, username, fieldsValid)">
       <label for="passOne">Password:</label>
-      <input type="password" id="passOne" v-model="password" @input="(e) => store.setPassword(e, password, fieldsValid)">
+      <input type="password" id="passOne" v-model="password" @input="(e) => store.setPassword(e, password, fieldsValid, repeatPassword)">
       <label for="passTwo">Repeat password:</label>
-      <input type="password" id="passTwo" v-model="repeatPassword" @input="(e) => store.setRepeatPass(e, repeatPassword, password)">
-      <button class="register-button" disabled=true>Submit</button>
+      <input type="password" id="passTwo" v-model="repeatPassword" @input="(e) => store.setRepeatPass(e, repeatPassword, password, fieldsValid)">
+      <button class="register-button" @click="(e) => submitRegister(e)">Submit</button>
     </form>
   </div>
 </template>
@@ -32,7 +58,7 @@ let repeatPassword: string = ""
   border: 3px solid rgba(221, 26, 26, 0.77) !important;
   box-shadow: inset;
 }
-.register-form-container{
+.register-form-container {
   font-size: 20px;
   display: flex;
   flex-direction: column;
@@ -41,10 +67,12 @@ let repeatPassword: string = ""
   margin: 0 auto;
   margin-top: 5rem;
   padding: 10px;
-  border-radius: 20px;
+  border-radius: 10px;
+
+  border: 54px solid rgba(103, 100, 97, 0.093);
 }
 
-h2{
+h2 {
   display: block;
   margin: 0 auto;
   text-align: center;
@@ -63,11 +91,11 @@ h2:hover {
   transition: all .4s;
 }
 
-.register-button{
+.register-button {
   display: block;
   margin: 0 auto;
   text-align: center;
-  color: white;
+  color: rgb(205, 204, 203);
   font-size: 18px;
   background-color: rgba(103, 100, 97, 0.332);
   border-radius: 10px;
@@ -75,8 +103,9 @@ h2:hover {
   border: 2px solid rgb(189, 135, 0);
   padding: 12px;
   margin-top: 3rem;
+  font-family: 'Roboto Mono', monospace;
 }
-.register-button:hover{
+.register-button:hover {
   background-color: rgba(103, 100, 97, 0.515);
   text-shadow:
   0 0 12px rgb(189, 135, 0),

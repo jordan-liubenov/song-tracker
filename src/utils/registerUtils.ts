@@ -1,3 +1,23 @@
+export const ensureAllFields = (
+  email: string,
+  username: string,
+  password: string,
+  repeatPassword: string
+): boolean => {
+  let allValid = true
+
+  if (
+    email.length === 0 ||
+    username.length === 0 ||
+    password.length === 0 ||
+    repeatPassword.length === 0
+  ) {
+    return false
+  }
+
+  return allValid
+}
+
 export const validateEmail = (email: string = ""): boolean => {
   let isValid = true
   let reg = /^[A-Za-z\d]+[@][A-Za-z]+\.[a-z]+$/g
@@ -8,6 +28,8 @@ export const validateEmail = (email: string = ""): boolean => {
     } else {
       isValid = false
     }
+  } else {
+    return true
   }
   return isValid
 }
@@ -19,6 +41,8 @@ export const validateUsername = (username: string): boolean => {
     isValid = true
   } else if (username.length < 6) {
     isValid = false
+  } else if (username.length == 0) {
+    return true
   }
 
   return isValid

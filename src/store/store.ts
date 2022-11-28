@@ -23,39 +23,69 @@ const state: StateStore = reactive({
 // Reducers (state-setters)
 
 // Register Form:
-const setEmail = (e: any, email: string): void => {
+const setEmail = (
+  e: any,
+  email: string,
+  fieldsValid: { valid: boolean }
+): void => {
   state.email = email
   if (!validateEmail(email)) {
     e.target.className = "inputError"
+    fieldsValid.valid = false
   } else {
     e.target.className = ""
+    fieldsValid.valid = true
   }
 }
-const setUsername = (e: any, username: string): void => {
+const setUsername = (
+  e: any,
+  username: string,
+  fieldsValid: { valid: boolean }
+): void => {
   state.username = username
   if (!validateUsername(username)) {
     e.target.className = "inputError"
+    fieldsValid.valid = false
   } else {
     e.target.className = ""
-  }
-  if (username.length === 0) {
-    e.target.className = "inputError"
+    fieldsValid.valid = true
   }
 }
-const setPassword = (e: any, password: string): void => {
+const setPassword = (
+  e: any,
+  password: string,
+  fieldsValid: { valid: boolean },
+  repeatPassword: string
+): void => {
   state.password = password
   if (!validatePassword(password)) {
     e.target.className = "inputError"
+    fieldsValid.valid = false
   } else {
     e.target.className = ""
+    fieldsValid.valid = true
+  }
+  if (password !== repeatPassword) {
+    e.target.className = "inputError"
+    fieldsValid.valid = false
+  } else {
+    e.target.className = ""
+    fieldsValid.valid = true
   }
 }
-const setRepeatPass = (e: any, rePass: string, password: string): void => {
+const setRepeatPass = (
+  e: any,
+  rePass: string,
+  password: string,
+  fieldsValid: { valid: boolean }
+): void => {
   state.repeatPassword = rePass
   if (!validateRePass(password, rePass)) {
     e.target.className = "inputError"
+    fieldsValid.valid = false
   } else {
     e.target.className = ""
+    fieldsValid.valid = true
   }
 }
 
