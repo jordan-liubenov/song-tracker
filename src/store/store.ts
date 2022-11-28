@@ -65,13 +65,13 @@ const setPassword = (
     e.target.className = ""
     fieldsValid.valid = true
   }
-  if (password !== repeatPassword) {
-    e.target.className = "inputError"
-    fieldsValid.valid = false
-  } else {
-    e.target.className = ""
-    fieldsValid.valid = true
-  }
+  // if (password !== repeatPassword) {
+  //   e.target.className = "inputError"
+  //   fieldsValid.valid = false
+  // } else {
+  //   e.target.className = ""
+  //   fieldsValid.valid = true
+  // }
 }
 const setRepeatPass = (
   e: any,

@@ -3,6 +3,12 @@ import { inject } from 'vue';
 import { ensureAllFields } from '../utils/registerUtils'
 const store: any = inject('store') // fix type
 
+/*
+defineProps<{
+  msg?: string
+}>()
+*/
+
 const fieldsValid = { valid:true }
 
 let email: string = ""
@@ -24,12 +30,17 @@ async function submitRegister(e: any): Promise<void>{
     repeatPassword
   }
 
-  // try {
-  //   const req = await fetch("http://localhost:5050/register")
-  //   const res = req.json() 
-  // } catch (error) {
-  //   console.log(error)
-  // }
+  try {
+    const req = await fetch("http://localhost:5000/register", {
+      method: "POST",
+      headers: { "Content-Type" : "application/json" },
+      body: JSON.stringify(objectBody)
+    })
+    const res = await req.json() 
+    console.log(res)
+  } catch (error) {
+    console.log(error)
+  }
 
   console.log(JSON.stringify(objectBody))
 }
