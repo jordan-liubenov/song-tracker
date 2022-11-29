@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { inject } from 'vue';
+import SubmitButton from './SubmitButton.vue'
+import { inject } from 'vue'
 import { ensureAllFields } from '../utils/registerUtils'
+import { urlObj } from '@/utils/urlAddresses'
 const store: any = inject('store') // fix type
-
-/*
-defineProps<{
-  msg?: string
-}>()
-*/
 
 const fieldsValid = { valid:true }
 
@@ -31,7 +27,7 @@ async function submitRegister(e: any): Promise<void>{
   }
 
   try {
-    const req = await fetch("http://localhost:5000/register", {
+    const req = await fetch(urlObj.register, {
       method: "POST",
       headers: { "Content-Type" : "application/json" },
       body: JSON.stringify(objectBody)
@@ -59,15 +55,21 @@ async function submitRegister(e: any): Promise<void>{
       <input type="password" id="passOne" v-model="password" @input="(e) => store.setPassword(e, password, fieldsValid, repeatPassword)">
       <label for="passTwo">Repeat password:</label>
       <input type="password" id="passTwo" v-model="repeatPassword" @input="(e) => store.setRepeatPass(e, repeatPassword, password, fieldsValid)">
-      <button class="register-button" @click="(e) => submitRegister(e)">Submit</button>
+      <SubmitButton buttonMessage="Register" :submit-fn="(e) => submitRegister(e)"/>
     </form>
   </div>
 </template>
 
 <style scoped>
+.inputSuccess {
+  border: 3px solid rgba(59, 112, 21, 0.77) !important;
+  box-shadow: inset;
+  transition: all 0.5s;
+}
 .inputError {
   border: 3px solid rgba(221, 26, 26, 0.77) !important;
   box-shadow: inset;
+  transition: all 0.5s;
 }
 .register-form-container {
   font-size: 20px;
@@ -100,29 +102,6 @@ h2 {
 h2:hover {
   background-color: rgba(103, 100, 97, 0.515);
   transition: all .4s;
-}
-
-.register-button {
-  display: block;
-  margin: 0 auto;
-  text-align: center;
-  color: rgb(205, 204, 203);
-  font-size: 18px;
-  background-color: rgba(103, 100, 97, 0.332);
-  border-radius: 10px;
-  width: 45%;
-  border: 2px solid rgb(189, 135, 0);
-  padding: 12px;
-  margin-top: 3rem;
-  font-family: 'Roboto Mono', monospace;
-}
-.register-button:hover {
-  background-color: rgba(103, 100, 97, 0.515);
-  text-shadow:
-  0 0 12px rgb(189, 135, 0),
-  0 0 11px rgb(189, 135, 0); 
-  cursor: pointer;
-  transition: all .7s;
 }
 
 label{

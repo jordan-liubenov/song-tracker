@@ -7,10 +7,15 @@ import {
 import { reactive, readonly } from "vue"
 
 interface StateStore {
+  // Register
   email: string
   username: string
   password: string
   repeatPassword: string
+
+  // Login
+  usernameLogin: string
+  passwordLogin: string
 }
 
 const state: StateStore = reactive({
@@ -18,6 +23,8 @@ const state: StateStore = reactive({
   username: "",
   password: "",
   repeatPassword: "",
+  usernameLogin: "",
+  passwordLogin: "",
 })
 
 // Reducers (state-setters)
@@ -33,7 +40,7 @@ const setEmail = (
     e.target.className = "inputError"
     fieldsValid.valid = false
   } else {
-    e.target.className = ""
+    e.target.className = "inputSuccess"
     fieldsValid.valid = true
   }
 }
@@ -47,7 +54,7 @@ const setUsername = (
     e.target.className = "inputError"
     fieldsValid.valid = false
   } else {
-    e.target.className = ""
+    e.target.className = "inputSuccess"
     fieldsValid.valid = true
   }
 }
@@ -62,16 +69,9 @@ const setPassword = (
     e.target.className = "inputError"
     fieldsValid.valid = false
   } else {
-    e.target.className = ""
+    e.target.className = "inputSuccess"
     fieldsValid.valid = true
   }
-  // if (password !== repeatPassword) {
-  //   e.target.className = "inputError"
-  //   fieldsValid.valid = false
-  // } else {
-  //   e.target.className = ""
-  //   fieldsValid.valid = true
-  // }
 }
 const setRepeatPass = (
   e: any,
@@ -84,9 +84,19 @@ const setRepeatPass = (
     e.target.className = "inputError"
     fieldsValid.valid = false
   } else {
-    e.target.className = ""
+    e.target.className = "inputSuccess"
     fieldsValid.valid = true
   }
+}
+
+// Login form
+const setUsernameLogin = (e: any, username: string): void => {
+  state.usernameLogin = username
+  // TODO add request service which checks for existing user with this username
+}
+const setPasswordLogin = (e: any, password: string): void => {
+  state.passwordLogin = password
+  // TODO add request service which checks for existing user with this username and checks if password is correct
 }
 
 export default {
@@ -95,4 +105,6 @@ export default {
   setUsername,
   setPassword,
   setRepeatPass,
+  setUsernameLogin,
+  setPasswordLogin,
 }

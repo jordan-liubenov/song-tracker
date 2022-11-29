@@ -1,13 +1,10 @@
+<script setup lang="ts">
+import About from '@/components/About.vue';
+</script>
+
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <main>
+    <About />
+  </main>
 </template>
 
-<style scoped>
-  .about{
-    display: flex;
-    margin: 0 auto;
-    text-align: center;
-  }
-</style>
