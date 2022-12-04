@@ -1,16 +1,56 @@
 <script setup lang="ts">
-import { urlObj } from '@/utils/urlAddresses'
+import { Url } from '@/utils/urlAddresses'
 import SubmitButton from './SubmitButton.vue'
 import { inject } from 'vue'
-
-const store: any = inject('store') // fix type
-
+import { BrowserUtils } from "../utils/browserUtils"
+// import { getCookies, extractUsername } from "../utils/browserUtils"
+const store: any = inject('store')
 let username: string = ""
 let password: string = ""
 
 async function submitLogin(e: any): Promise<void> {
+  e.preventDefault()
+  
+  if (username.length == 0 || password.length == 0){
+    return 
+  }
 
-}
+  const toSend = {
+    username: username,
+    password: password
+  }
+  
+  try {
+    const req = await fetch(Url.login, {
+      method: "POST",
+      headers: { "Content-Type":"application/json" },
+      body: JSON.stringify(toSend)
+    })
+
+    const res = await req.json()
+
+    if (res.noUser) {
+      e.target.parentNode.childNodes[2].className = "inputError"
+    } else {
+      e.target.parentNode.childNodes[2].className = "inputSuccess"
+    }
+    if (res.incorrectPass) {
+      e.target.parentNode.childNodes[4].className = "inputError"
+    } else {
+      e.target.parentNode.childNodes[4].className = "inputSuccess"
+    }
+    document.cookie = "token=" + res.result
+    document.cookie = "username=" + res.user
+
+    const allCookies = BrowserUtils.getCookies()
+    const username = BrowserUtils.extractUsername(allCookies)
+    const token = BrowserUtils.extractToken(allCookies)
+
+    console.log(username, token)
+  } catch (error) {
+    console.log(error)
+  }
+}// l
 </script>
 
 <template>
@@ -21,13 +61,19 @@ async function submitLogin(e: any): Promise<void> {
     <label for="password">Password:</label>
     <input type="password" id="password" v-model="password" @input="(e) => store.setPasswordLogin(e, password)">
     <SubmitButton buttonMessage="Login" :submitFn="(e) => submitLogin(e)" />
-  </div>
+  </div> 
 </template>
 
 <style scoped>
-.inputError {
-  border: 3px solid rgba(221, 26, 26, 0.77) !important;
+.inputSuccess {
+  border: 3.5px solid rgba(59, 112, 21, 0.77) !important;
   box-shadow: inset;
+  transition: all 0.5s;
+}
+.inputError {
+  border: 3.5px solid rgba(221, 26, 26, 0.77) !important;
+  box-shadow: inset;
+  transition: all 0.5s;
 }
 .login-form-container {
   font-size: 20px;
@@ -56,6 +102,7 @@ h2 {
   text-shadow:
   0 0 12px rgb(189, 135, 0),
   0 0 11px rgb(189, 135, 0);
+  transition: all .4s;
 }
 h2:hover {
   background-color: rgba(103, 100, 97, 0.515);
@@ -72,11 +119,12 @@ input[type="text"], input[type="password"]{
   margin: 0 auto;
   display: flex;
   background-color: rgba(186, 185, 183, 0.984);
-  border: 1px solid  rgb(189, 135, 0);
+  border: 2px solid  rgb(189, 135, 0);
   width: 30%;
   padding: 5px;
   margin-bottom: 15px;
   border-radius: 7px;
+  transition: all .5s;
 }
 
 input[type="text"]:focus, input[type="password"]:focus{

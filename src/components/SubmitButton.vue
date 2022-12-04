@@ -23,6 +23,7 @@
   padding: 12px;
   margin-top: 3rem;
   font-family: 'Roboto Mono', monospace;
+  transition: all .7s;
 }
 .submit-button:hover {
   background-color: rgba(103, 100, 97, 0.515);

@@ -1,9 +1,4 @@
-import {
-  validateEmail,
-  validatePassword,
-  validateRePass,
-  validateUsername,
-} from "@/utils/registerUtils"
+import { RegisterUtils } from "@/utils/registerUtils"
 import { reactive, readonly } from "vue"
 
 interface StateStore {
@@ -36,12 +31,16 @@ const setEmail = (
   fieldsValid: { valid: boolean }
 ): void => {
   state.email = email
-  if (!validateEmail(email)) {
+  if (!RegisterUtils.validateEmail(email)) {
     e.target.className = "inputError"
     fieldsValid.valid = false
   } else {
     e.target.className = "inputSuccess"
     fieldsValid.valid = true
+  }
+  if (email.length == 0) {
+    fieldsValid.valid = false
+    e.target.className = ""
   }
 }
 const setUsername = (
@@ -50,12 +49,16 @@ const setUsername = (
   fieldsValid: { valid: boolean }
 ): void => {
   state.username = username
-  if (!validateUsername(username)) {
+  if (!RegisterUtils.validateUsername(username)) {
     e.target.className = "inputError"
     fieldsValid.valid = false
   } else {
     e.target.className = "inputSuccess"
     fieldsValid.valid = true
+  }
+  if (username.length == 0) {
+    fieldsValid.valid = false
+    e.target.className = ""
   }
 }
 const setPassword = (
@@ -65,12 +68,16 @@ const setPassword = (
   repeatPassword: string
 ): void => {
   state.password = password
-  if (!validatePassword(password)) {
+  if (!RegisterUtils.validatePassword(password)) {
     e.target.className = "inputError"
     fieldsValid.valid = false
   } else {
     e.target.className = "inputSuccess"
     fieldsValid.valid = true
+  }
+  if (password.length == 0) {
+    fieldsValid.valid = false
+    e.target.className = ""
   }
 }
 const setRepeatPass = (
@@ -80,23 +87,25 @@ const setRepeatPass = (
   fieldsValid: { valid: boolean }
 ): void => {
   state.repeatPassword = rePass
-  if (!validateRePass(password, rePass)) {
+  if (!RegisterUtils.validateRePass(password, rePass)) {
     e.target.className = "inputError"
     fieldsValid.valid = false
   } else {
     e.target.className = "inputSuccess"
     fieldsValid.valid = true
   }
+  if (rePass.length == 0) {
+    fieldsValid.valid = false
+    e.target.className = ""
+  }
 }
 
 // Login form
 const setUsernameLogin = (e: any, username: string): void => {
   state.usernameLogin = username
-  // TODO add request service which checks for existing user with this username
 }
 const setPasswordLogin = (e: any, password: string): void => {
   state.passwordLogin = password
-  // TODO add request service which checks for existing user with this username and checks if password is correct
 }
 
 export default {

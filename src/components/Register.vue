@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import SubmitButton from './SubmitButton.vue'
 import { inject } from 'vue'
-import { ensureAllFields } from '../utils/registerUtils'
-import { urlObj } from '@/utils/urlAddresses'
-const store: any = inject('store') // fix type
+import { RegisterUtils } from '../utils/registerUtils'
+import { Url } from '@/utils/urlAddresses'
+const store: any = inject('store')
 
 const fieldsValid = { valid:true }
 
@@ -15,7 +15,7 @@ let repeatPassword: string = ""
 async function submitRegister(e: any): Promise<void>{
   e.preventDefault()
 
-  if (!ensureAllFields(email, username, password, repeatPassword) || !fieldsValid.valid) {
+  if (!RegisterUtils.ensureAllFields(email, username, password, repeatPassword) || !fieldsValid.valid) {
     return
   }
 
@@ -27,7 +27,7 @@ async function submitRegister(e: any): Promise<void>{
   }
 
   try {
-    const req = await fetch(urlObj.register, {
+    const req = await fetch(Url.register, {
       method: "POST",
       headers: { "Content-Type" : "application/json" },
       body: JSON.stringify(objectBody)
@@ -40,7 +40,6 @@ async function submitRegister(e: any): Promise<void>{
 
   console.log(JSON.stringify(objectBody))
 }
-
 </script>
 
 <template>
@@ -62,12 +61,12 @@ async function submitRegister(e: any): Promise<void>{
 
 <style scoped>
 .inputSuccess {
-  border: 3px solid rgba(59, 112, 21, 0.77) !important;
+  border: 3.5px solid rgba(59, 112, 21, 0.77) !important;
   box-shadow: inset;
   transition: all 0.5s;
 }
 .inputError {
-  border: 3px solid rgba(221, 26, 26, 0.77) !important;
+  border: 3.5px solid rgba(221, 26, 26, 0.77) !important;
   box-shadow: inset;
   transition: all 0.5s;
 }
@@ -98,6 +97,7 @@ h2 {
   text-shadow:
   0 0 12px rgb(189, 135, 0),
   0 0 11px rgb(189, 135, 0);
+  transition: all .4s;
 }
 h2:hover {
   background-color: rgba(103, 100, 97, 0.515);
@@ -114,11 +114,12 @@ input[type="text"], input[type="password"]{
   margin: 0 auto;
   display: flex;
   background-color: rgba(186, 185, 183, 0.984);
-  border: 1px solid  rgb(189, 135, 0);
+  border: 2px solid  rgb(189, 135, 0);
   width: 30%;
   padding: 5px;
   margin-bottom: 15px;
   border-radius: 7px;
+  transition: all .5s;
 }
 
 input[type="text"]:focus, input[type="password"]:focus{
