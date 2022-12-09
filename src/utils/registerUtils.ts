@@ -1,3 +1,10 @@
+interface RegisterRequestBody {
+  email: string
+  username: string
+  password: string
+  repeatPassword: string
+} 
+
 export class RegisterUtils {
   public static ensureAllFields(
     email: string,

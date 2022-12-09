@@ -1,3 +1,4 @@
+import { RouterUtils } from "@/utils/routerUtils"
 import { createRouter, createWebHistory } from "vue-router"
 import HomeView from "../views/HomeView.vue"
 
@@ -18,6 +19,13 @@ const router = createRouter({
       path: "/register",
       name: "register",
       component: () => import("../views/RegisterView.vue"),
+      beforeEnter: (to, from, next) => {
+        if (RouterUtils.isLoggedIn()) {
+          next("/")
+        } else {
+          next("/login")
+        }
+      },
     },
     {
       path: "/login",
@@ -26,5 +34,7 @@ const router = createRouter({
     },
   ],
 })
+
+// router.beforeEach()
 
 export default router

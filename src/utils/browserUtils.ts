@@ -29,6 +29,7 @@ export class BrowserUtils {
         break
       }
     }
+    allCookies.sort()
     return token
   }
 }

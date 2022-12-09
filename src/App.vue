@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { RouterUtils } from './utils/routerUtils';
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/Home.vue'
 </script>
 
 <template>
@@ -9,8 +9,8 @@ import HelloWorld from './components/Home.vue'
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/register">Register</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
+        <RouterLink to="/register" v-if="!RouterUtils.isLoggedIn()">Register</RouterLink>
+        <RouterLink to="/login" v-if="!RouterUtils.isLoggedIn()">Login</RouterLink>
       </nav>
     </div>
   </div>
